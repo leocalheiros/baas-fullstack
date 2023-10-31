@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+  {% if 'email' in session and session['email'] %}
+<h1>Bem-vindo a plataforma BaaS</h1>
+<p>Esta é a página inicial.</p>
+{% else %}
+<h1>Por favor efetue o login na página para ter acesso as funcionalidades!</h1>
+<p>Ou utilize as que estão liberadas!</p>
+{% endif %}
+{% endblock %}

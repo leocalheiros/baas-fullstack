@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+  <h2>Criar Pagamento</h2>
+  <form method="post" action="{{ url_for('transaction_controller.create_transaction') }}">
+    <div class="form-group">
+      <label for="amount">Valor da Transação:</label>
+      <input type="number" class="form-control" id="amount" name="amount" placeholder="Digite o valor da transação" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar Transação</button>
+  </form>
+{% endblock %}

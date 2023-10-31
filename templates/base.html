@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+</head>
+<body>
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">BaaS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto"> <!-- Use mx-auto para centralizar horizontalmente -->
+                  {% if 'email' in session and session['email'] %}
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/perfil">Perfil</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/create-payment">Criar pagamento</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/create-card">Registrar Cartão</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/generate-pix-code">Gerar PIX</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/logout">Sair</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/login">Logar</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="/cadastro">Cadastrar</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul id="messages" class="list-unstyled">
+                    {% for message in messages %}
+                        <li class="alert alert-success">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="page-header">
+            <h1>{{ titulo }}</h1>
+        </div>
+
+        <div class="conteudo">
+            {% block conteudo %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

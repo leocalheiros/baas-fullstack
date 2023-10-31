@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+  <form method="POST" action="{{ url_for('cadastro_controller.cadastrar') }}">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha:</label>
+      <input type="password" class="form-control" id="senha" name="senha" required>
+    </div>
+    <div class="form-group">
+      <label for="saldo">Saldo:</label>
+      <input type="number" class="form-control" id="saldo" name="saldo" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+{% endblock %}

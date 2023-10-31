@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+  <form method="post" action="{{ url_for('generate_pix_code_controller.generate_pix_code') }}">
+    <div class="form-group">
+      <label for="nome">Nome:</label>
+      <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
+    </div>
+    <div class="form-group">
+      <label for="chavepix">Chave Pix:</label>
+      <input type="text" class="form-control" id="chavepix" name="chavepix" placeholder="Chave Pix" required>
+    </div>
+    <div class="form-group">
+      <label for="valor">Valor:</label>
+      <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor" required>
+    </div>
+    <div class="form-group">
+      <label for="cidade">Cidade:</label>
+      <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Gerar Código Pix</button>
+  </form>
+{% endblock %}

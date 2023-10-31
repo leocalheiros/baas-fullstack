@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+  <form method="post" action="{{ url_for('cartao_controller.cadastrar_cartao') }}">
+    <div class="form-group">
+      <label for="card_number">Número do Cartão:</label>
+      <input type="text" class="form-control" id="card_number" name="card_number" placeholder="Número do Cartão" required>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="expiration_month">Mês de Expiração:</label>
+        <input type="number" class="form-control" id="expiration_month" name="expiration_month" placeholder="Mês" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="expiration_year">Ano de Expiração:</label>
+        <input type="number" class="form-control" id="expiration_year" name="expiration_year" placeholder="Ano" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="security_code">Código de Segurança:</label>
+        <input type="text" class="form-control" id="security_code" name="security_code" placeholder="Código de Segurança" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="holder_name">Nome do Titular:</label>
+      <input type="text" class="form-control" id="holder_name" name="holder_name" placeholder="Nome do Titular" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+{% endblock %}

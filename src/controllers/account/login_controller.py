@@ -7,15 +7,7 @@ api_url = 'https://x0wiy4jqdf.execute-api.us-east-1.amazonaws.com/Prod/login'
 
 def get_response_data(response):
     api_response = response.json()
-    response_data = api_response[0].get('response', {}).get('data', {})
-
-    if 'status' in response_data:
-        return response_data
-
-    if 'errors' in api_response[0]:
-        return api_response[0]
-
-    return {}
+    return api_response
 
 
 @auth_controller.route("/login", methods=["GET"])
@@ -35,17 +27,15 @@ def autenticar():
 
     response = requests.post(api_url, json=data)
     response_data = get_response_data(response)
+    info_data = response_data['response']['data']
 
-    if response_data:
-        status = response_data.get('status')
+    if response.status_code == 200:
+        token = info_data.get('token')
+        session['token'] = token
+        session['email'] = email
 
-        if status == 'success':
-            token = response_data.get('token')
-            session['token'] = token
-            session['email'] = email
-
-            flash("Login realizado com sucesso!", "success")
-            return redirect(url_for("perfil_controller.perfil"))
+        flash("Login realizado com sucesso!", "success")
+        return redirect(url_for("perfil_controller.perfil"))
 
     flash("Erro no login. Verifique suas credenciais.", "danger")
     return redirect(url_for("auth_controller.login"))

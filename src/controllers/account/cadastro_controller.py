@@ -25,14 +25,11 @@ def cadastrar():
     response = requests.post(api_url, json=data)
 
     if response.status_code == 200:
-        api_response = response.json()
-        if "response" in api_response[0]:
-            response_data = api_response[0]["response"]
-            status = response_data.get('status')
+        flash("Cadastro realizado com sucesso!", "success")
+        return redirect(url_for("cadastro_controller.cadastro"))
+    elif response.status_code == 404:
+        flash('Conta já existente!')
+        return redirect(url_for("cadastro_controller.cadastro"))
 
-            if status == 'success':
-                flash("Cadastro realizado com sucesso!", "success")
-                return redirect(url_for("cadastro_controller.cadastro"))
-
-    flash("Erro na chamada da API externa", "danger")
+    flash("Erro ao criar conta.", "danger")
     return redirect(url_for("cadastro_controller.cadastro"))

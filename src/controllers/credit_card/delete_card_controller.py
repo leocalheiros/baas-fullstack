@@ -34,17 +34,15 @@ def delete_card():
         }
 
         response = requests.post(api_url, json=data, headers=headers)
-        response_data = get_response_data(response)
 
-        status = response_data.get("status")
-        if status == 'success':
+        if response.status_code == 200:
             flash("Cartão de crédito deletado com sucesso!", "success")
             return redirect(url_for("perfil_controller.perfil"))
-        elif status == 'fail':
-            flash("Falha ao deletar o cartão de crédito.", "danger")
+        elif response.status_code == 404:
+            flash("Você não possui cartão de crédito cadastrado!.", "danger")
             return redirect(url_for("perfil_controller.perfil"))
         else:
-            flash("Erro ao processar a resposta da API externa.", "danger")
+            flash("Falha ao deletar cartão de crédito.", "danger")
             return redirect(url_for("perfil_controller.perfil"))
 
     flash("Você precisa fazer login para acessar esta página.", "warning")

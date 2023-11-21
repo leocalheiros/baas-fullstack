@@ -38,15 +38,8 @@ def cadastrar_cartao():
         response = requests.post(api_url, json=data, headers=headers)
 
         if response.status_code == 200:
-            api_response = response.json()
-
-            if "response" in api_response[0]:
-                response_data = api_response[0]
-                status = response_data["response"]["data"].get('status')
-
-                if status == 'success':
-                    flash("Cartão de crédito cadastrado com sucesso!", "success")
-                    return redirect(url_for("perfil_controller.perfil"))
+            flash("Cartão de crédito cadastrado com sucesso!", "success")
+            return redirect(url_for("perfil_controller.perfil"))
 
         flash("Erro no cadastro do cartão de crédito. Verifique os dados fornecidos.", "danger")
 

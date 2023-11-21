@@ -7,15 +7,7 @@ api_url = 'https://x0wiy4jqdf.execute-api.us-east-1.amazonaws.com/Prod/create-pa
 
 def get_response_data(response):
     api_response = response.json()
-    response_data = api_response[0].get('response', {}).get('data', {})
-
-    if 'status' in response_data:
-        return response_data
-
-    if 'errors' in api_response[0]:
-        return api_response[0]
-
-    return {}
+    return api_response
 
 
 @transaction_controller.route('/create-payment', methods=['GET'])
@@ -41,18 +33,15 @@ def create_transaction():
         }
 
         response = requests.post(api_url, json=data, headers=headers)
-        response_data = get_response_data(response)
-        print(response_data)
-        status = response_data["status"]
 
-        if status == 'success':
+        if response.status_code == 200:
             flash("Transação realizada com sucesso!", "success")
             return redirect(url_for("perfil_controller.perfil"))
-        elif status == 'fail':
-            flash("Falha na transação. Verifique os detalhes.", "danger")
+        elif response.status_code == 404:
+            flash("Você não possui cartão de crédito cadastrado.", "danger")
             return redirect(url_for("transaction_controller.create_payment_page"))
         else:
-            flash("Erro ao processar a resposta da API externa.", "danger")
+            flash("Falha ao realizar o pagamento, verifique os detalhes.", "danger")
             return redirect(url_for("transaction_controller.create_payment_page"))
 
     flash("Você precisa fazer login para acessar esta página.", "warning")

@@ -7,15 +7,7 @@ api_url = ' https://x0wiy4jqdf.execute-api.us-east-1.amazonaws.com/Prod/gerar-pi
 
 def get_response_data(response):
     api_response = response.json()
-    response_data = api_response[0].get('response', {}).get('data', {})
-
-    if 'status' in response_data:
-        return response_data
-
-    if 'errors' in api_response[0]:
-        return api_response[0]
-
-    return {}
+    return api_response
 
 
 @pix_controller.route('/generate-pix-code', methods=['GET'])
@@ -47,15 +39,15 @@ def generate_pix_code():
 
         response = requests.post(api_url, json=data, headers=headers)
         response_data = get_response_data(response)
-        status = response_data.get("status")
 
-        if status == 'success':
-            payload = response_data.get("payload")
+        if response.status_code == 200:
+            info_data = response_data['response']['data']
+            payload = info_data.get("payload")
             flash(f"Código Pix gerado com sucesso! Código: {payload}", "success")
-        elif status == 'fail':
-            flash("Falha na geração do código Pix. Verifique os detalhes.", "danger")
+        elif response.status_code == 422:
+            flash("Dados inválidos para gerar código pix", "danger")
         else:
-            flash("Erro ao processar a resposta da API externa.", "danger")
+            flash("Erro ao criar o código pix", "danger")
 
         return redirect(url_for("generate_pix_code_controller.generate_pix_code_page"))
 

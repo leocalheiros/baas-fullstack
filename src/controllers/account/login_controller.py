@@ -27,9 +27,9 @@ def autenticar():
 
     response = requests.post(api_url, json=data)
     response_data = get_response_data(response)
-    info_data = response_data['response']['data']
 
     if response.status_code == 200:
+        info_data = response_data['response']['data']
         token = info_data.get('token')
         session['token'] = token
         session['email'] = email
